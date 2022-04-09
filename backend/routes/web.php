@@ -16,6 +16,14 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'api/v1/'], function () use ($router) {
+    $router->get('technicals/get_super_breakout_stock_list', [
+        'as' => 'getSuperBreakoutStockList', 'uses' => 'MovingAverageController@getSuperBreakoutStockList'
+    ]);
+
+    $router->get('technicals/get_stock_list_by_vol_and_dp', [
+        'as' => 'getSuperBreakoutStockList', 'uses' => 'MovingAverageController@getStockListByVolAndDP'
+    ]);
+
     $router->get('technicals/single_moving_avg/{period}', [
         'as' => 'getStockListBySingleMovingAvg', 'uses' => 'MovingAverageController@getStockListBySingleMovingAvg'
     ]);

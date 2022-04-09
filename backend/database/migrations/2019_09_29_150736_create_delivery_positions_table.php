@@ -31,6 +31,7 @@ class CreateDeliveryPositionsTable extends Migration
             $table->string('isin', 50);
             $table->date('traded_at');
             $table->index('symbol');
+            $table->index('traded_at');
             $table->timestamps();
         });
     }

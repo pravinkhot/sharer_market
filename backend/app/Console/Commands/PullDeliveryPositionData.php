@@ -49,10 +49,10 @@ class PullDeliveryPositionData extends Command
     {
         $lastDeliveryPositionData = DeliveryPositionModel::orderBy('id', 'desc')->first();
 
-        $begin = new DateTime($lastDeliveryPositionData->traded_at);
+        $begin = new DateTime($lastDeliveryPositionData->traded_at ?? '2020-01-01');
         $begin->add(new DateInterval('P1D'));
         $end = new DateTime('now');
-        $begin->setTime(0,0); 
+        $begin->setTime(0,0);
         $end->setTime(12,0);
         $interval = DateInterval::createFromDateString('1 day');
         $period = new DatePeriod($begin, $interval, $end);
@@ -64,7 +64,7 @@ class PullDeliveryPositionData extends Command
             //Pull delivery position data
             $deliveryPositionData = $this->getDeliveryPositionData($dt);
 
-            //Pull price volumn data
+            //Pull price volume data
             $priceVolumnData = $this->getPriceVolumnData($dt);
 
             if ($deliveryPositionData['success'] === true || $priceVolumnData['success']  === true) {

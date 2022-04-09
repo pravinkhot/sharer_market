@@ -20,14 +20,17 @@ class DeliveryPositionController extends Controller
     public function getAvgDeliveryPerDay()
     {
         $movingAvgData = $this->calculateMovingAvg();
-        
+
         $currentDeliveryPositionData = DeliveryPositionModel::select(
                     'delivery_positions.symbol',
                     'delivery_positions.traded_quantity',
                     'delivery_positions.deliverable_quantity',
                     'delivery_positions.close_price'
                 )
-                ->where('delivery_positions.traded_at', '=', '2019-10-10')
+                ->where('delivery_positions.traded_at', '=', '2019-10-10
+
+
+                ')
                 ->where('delivery_positions.series', 'EQ')
                 ->get();
 
@@ -63,7 +66,7 @@ class DeliveryPositionController extends Controller
                                     'current' => $current_deliverable_quantity_percentage
                                 ],
                             ];
-                        }   
+                        }
                     }
 
                 }
