@@ -4,21 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use DB;
 use Carbon\Carbon;
 
 class Holiday extends Model
 {
-    protected $fillable = [
-        'date', 'description'
-    ];
+    private static $tableName = 'holidays';
 
-    public function getList(Carbon $startDate): array
+    /**
+     * @param int $year
+     * @return mixed
+     */
+    public static function getRecordsByYear(int $year)
     {
-        return Holiday::whereBetween('date', [
-                            $startDate->format('Y').'-01-01',
-                            $startDate->format('Y').'-12-31'
-                        ])
-                        ->pluck('date')
-                        ->toArray();
+        return DB::table(self::$tableName)
+            ->whereBetween('date', [
+                $year.'-01-01',
+                $year.'-12-31'
+            ])
+            ->get();
     }
 }

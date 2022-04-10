@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 
 use DateTime;
+use ZipArchive;
 use DateInterval;
 use DatePeriod;
 use App\Helpers\DataProvider;
@@ -55,7 +56,7 @@ class PullPriceVolumnData extends Command
         $begin = new DateTime($lastPriceVolumnData->traded_at);
         $begin->add(new DateInterval('P1D'));
         $end = new DateTime('now');
-        $begin->setTime(0,0); 
+        $begin->setTime(0,0);
         $end->setTime(12,0);
         $interval = DateInterval::createFromDateString('1 day');
         $period = new DatePeriod($begin, $interval, $end);

@@ -3,7 +3,9 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+
 use App\Helpers\CommonFunction;
+use App\Helpers\DeliveryPositions as DeliveryPositionsHelper;
 use App\Models\DeliveryPosition as DeliveryPositionModel;
 
 class MovingAverageController extends Controller
@@ -13,9 +15,26 @@ class MovingAverageController extends Controller
      */
     public function getSuperBreakoutStockList(Request $request)
     {
-        $smaIntervalList = [1, 3, 5, 10, 15, 20, 50, 100, 200];
+        $startDate = Carbon::now()->toDateString();
+        $lastWorkingDay = CommonFunction::getLastWorkingDayByDate($startDate);
+        $currentDateDpData = DeliveryPositionsHelper::getDeliveryPositionDataByTradedAtDate($lastWorkingDay->toDateString());
 
-        $startDate = '2020-11-12';
+
+        $smaIntervalList = [5, 10, 15, 50, 100, 200,];
+        foreach ($smaIntervalList as $interval) {
+            $dateList = CommonFunction::getDateRangeByInterval($startDate, $interval);
+
+            $movingAvgData = DeliveryPositionsHelper::getSimpleMovingAvgByInterval($dateList);
+
+
+            echo '<pre>'; print_r($movingAvgData); echo '</pre>'; exit;
+        }
+
+        dd($startDate, 'hi');
+
+
+
+
 
         $deliveryPositionModelObject = new DeliveryPositionModel();
         $currentDateDeliveryPositionData = $deliveryPositionModelObject->getCurrentDateDeliveryPositionData($startDate);
@@ -32,6 +51,7 @@ class MovingAverageController extends Controller
         $finalResultArray = [];
         foreach ($smaIntervalList as $interval) {
             $dateList = CommonFunction::getDateRangeByInterval($startDate, $interval);
+            dd($dateList, $interval);
 
             $intervalArray = [
                 'startDate' => end($dateList),
