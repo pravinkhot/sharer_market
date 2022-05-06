@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\MovingAvgController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,8 +19,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'api/v1/'], function () use ($router) {
-    Route::get('technicals/get_super_breakout_stock_list', [
-        'as' => 'getSuperBreakoutStockList', 'uses' => 'MovingAverageController@getSuperBreakoutStockList'
-    ]);
+Route::controller(MovingAvgController::class)->group(function () {
+    Route::get('/technicals/get_super_breakout_stock_list', 'getSuperBreakoutStockList');
 });
